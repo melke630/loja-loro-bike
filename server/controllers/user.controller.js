@@ -1,4 +1,4 @@
-import sendEmail from '../config/sendEmail.js';
+import sendEmail from '../models/config/sendEmail.js';
 import UserModel from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
@@ -326,41 +326,8 @@ export async function uploadAvatar(req, res) {
   }
 }*/
 
-/*export async function updateUserDetails(req,res){
-    try{
-        const userId = req.userId
-        const { name,email,mobile,password } = req.body
 
-        let hashPassword = ""
-
-        if(password){
-            const salt = await bcrypt.genSalt(10)
-            hashPassword = await bcrypt.hash(password,salt)
-        }
-
-        const updatUser = await UserModel.updateOne({_id: userId},{
-            ...(name && { name: name}),
-            ...(email && { email: email}),
-            ...(mobile && { mobile: mobile}),
-            ...(password && { password: hashPassword})
-        })
-
-        return res.json({
-            message: "ATUALIZADO COM SUCESSO",
-            error: false,
-            success: true,
-            data: updateUser
-            
-        })
-    
-    }catch (error) {
-        return res.status (500).json({
-            message: error.message || error,
-            error: true,
-            success: false
-        })
-    }
-}*/
+     
 export async function updateUserDetails(req, res) {
   try {
     const userId = req.userId;

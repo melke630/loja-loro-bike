@@ -8,17 +8,18 @@ import { BsCart4 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import UserMenu from "./UserMenu";
-import UserMenuMobile from "../pages/UserMenuMobile"; // 👈 importa o painel mobile
+import UserMenuMobile from "../pages/UserMenuMobile";
 
 const Header = () => {
   const [isMobile] = useMobile();
   const location = useLocation();
   const isSearchPage = location.pathname === "/search";
   const navigate = useNavigate();
-  const user = useSelector((state) => state?.user);
+
+  const user = useSelector((state) => state?.user?.user || state?.user);
 
   const [openUserMenu, setOpenUserMenu] = useState(false);
-  const [openUserMenuMobile, setOpenUserMenuMobile] = useState(false); // 👈 novo estado
+  const [openUserMenuMobile, setOpenUserMenuMobile] = useState(false);
 
   const redirectToLoginPage = () => {
     navigate("/login");
@@ -28,55 +29,56 @@ const Header = () => {
     setOpenUserMenu(false);
   };
 
-  const handleMobileUser = () => {
-    if (!user._id) {
-      navigate("/login");
-      return;
-   }
-   navigate("/login");
-  };
-
   return (
     <header className="h-24 lg:h-20 bg-gradient-to-r from-red-400 via-yellow-300 to-yellow-100 lg:shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white">
       {!(isSearchPage && isMobile) && (
-        <div className="container mx-auto flex items-center px-2 justify-between">
-          {/* Logo */}
-          <div className="h-full">
-            <Link to={"/"} className="h-full flex justify-center items-center">
-              {/* Logo desktop */}
+        <div className="w-full px-6 lg:px-10 grid grid-cols-2 lg:grid-cols-3 items-center justify-between">
+          
+          {/* Coluna 1: Logo */}
+          <div className="flex items-center">
+            <Link to={"/"} className="flex items-center">
               <img
                 src={logo}
-                width={200}
-                height={20}
                 alt="logo"
-                className="hidden lg:block "
+                className="hidden lg:block h-16 w-auto object-contain -mt-1 contrast-125 drop-shadow-sm"
               />
-              {/* Logo mobile */}
               <img
                 src={logo}
-                width={50}
-                height={20}
                 alt="logo"
-                className="lg:hidden "
+                className="lg:hidden h-12 w-auto object-contain"
               />
             </Link>
           </div>
 
-          {/* Search desktop */}
-          <div className="hidden lg:block">
-            <Search />
+          {/* Coluna 2: Search Desktop */}
+          <div className="hidden lg:flex justify-center w-full">
+            <div className="w-full max-w-md">
+              <Search />
+            </div>
           </div>
 
-          {/* Área de usuário */}
-          <div>
-            {/* Botão mobile */}
+          {/* Coluna 3: Área de usuário e Carrinho */}
+          <div className="flex items-center justify-end gap-4 lg:gap-6">
+            
+            {/* CARRINHO - Agora visível em todas as telas */}
+            <Link
+              to="/cart"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 px-3 py-2 lg:px-4 rounded-lg text-white hover:opacity-90 transition-opacity shadow-sm"
+            >
+              <div className="animate-bounce">
+                <BsCart4 size={20} className="lg:w-6 lg:h-6" />
+              </div>
+              <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+            </Link>
+
+            {/* Botão mobile de usuário */}
             <button
               className="text-neutral-600 lg:hidden"
               onClick={() => {
-                if(!user?._id) {
-                navigate("/login", { state: { openUserMenuAfterLogin: true } });
-                return;
-                 }
+                if (!user?._id) {
+                  navigate("/login", { state: { openUserMenuAfterLogin: true } });
+                  return;
+                }
                 setOpenUserMenuMobile(true);
               }}
             >
@@ -90,19 +92,19 @@ const Header = () => {
               </div>
             )}
 
-            {/* Desktop */}
-            <div className="hidden lg:flex items-center gap-10">
+            {/* Desktop User (Apenas o menu de conta e botão Entrar ficam restritos ao desktop) */}
+            <div className="hidden lg:flex items-center gap-6">
               {user?._id ? (
                 <div className="relative">
                   <div
                     onClick={() => setOpenUserMenu((prev) => !prev)}
-                    className="flex select-none items-center gap-1 cursor-pointer"
+                    className="flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800"
                   >
                     <p>Minha conta</p>
                     {openUserMenu ? (
-                      <GoTriangleUp size={25} className="text-black" />
+                      <GoTriangleUp size={22} className="text-black" />
                     ) : (
-                      <GoTriangleDown size={25} className="text-black" />
+                      <GoTriangleDown size={22} className="text-black" />
                     )}
                   </div>
                   {openUserMenu && (
@@ -116,29 +118,20 @@ const Header = () => {
               ) : (
                 <button
                   onClick={redirectToLoginPage}
-                  className="text-lg px-2"
+                  className="text-base font-medium px-2 text-slate-800 hover:text-black"
                 >
                   Entrar
                 </button>
               )}
-
-              {/* Carrinho */}
-              <button
-                onClick={() => setOpenCartSection(true)}
-                className="flex items-center gap-2 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 px-3 py-2 rounded text-white"
-              >
-                <div className="animate-bounce">
-                  <BsCart4 size={26} />
-                </div>
-                <div className="font-semibold text-sm">Meu Carrinho</div>
-              </button>
             </div>
+
           </div>
+
         </div>
       )}
 
       {/* Search mobile */}
-      <div className="container mx-auto px-2 lg:hidden">
+      <div className="container mx-auto px-4 lg:hidden pb-1">
         <Search />
       </div>
     </header>

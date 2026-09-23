@@ -30,11 +30,11 @@ const UserMenu = ({ close }) => {
         if (close) {
           close();
         }
-       /*if (response.data.success) {
-        close();
-        dispatch(logout());
-        toast.success(response.data.message)
-       }*/
+        /*if (response.data.success) {
+         close();
+         dispatch(logout());
+         toast.success(response.data.message)
+        }*/
         dispatch(logout());
         localStorage.clear();
         toast.success(response.data.message);
@@ -45,8 +45,8 @@ const UserMenu = ({ close }) => {
     }
   };
 
-  const handleClose=()=>{
-    if(close){
+  const handleClose = () => {
+    if (close) {
       close()
     }
   }
@@ -56,7 +56,7 @@ const UserMenu = ({ close }) => {
       <div className="font-semibold">Minha conta</div>
       <div className="text-sm flex items-center gap-2">
         <span className="max-w-52 text-ellipsis line-clamp-1">
-          {user.name || user.mobile} <span>{user.role ==="ADMIN" ? "[Admin]":""}</span>
+          {user.name || user.mobile} <span>{user.role === "ADMIN" ? "[Admin]" : ""}</span>
         </span>
         <Link onClick={handleClose} to={"/dashboard/profile"} className="hover:text-green-600" >
           <HiOutlineExternalLink size={20} />
@@ -67,49 +67,60 @@ const UserMenu = ({ close }) => {
 
       <div className="text-sm grid gap-2 ">
         {isAdmin(user.role) && (
-        <Link onClick={handleClose}
-         to={"/dashboard/category"} className="px-2 hover:bg-gradient-to-r 
+          <Link onClick={handleClose}
+            to={"/dashboard/category"} className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
-          categoria
-        </Link>
+            categoria
+          </Link>
         )}
         {isAdmin(user.role) && (
-        <Link onClick={handleClose}
-         to={"/dashboard/subcategory"} className="px-2 hover:bg-gradient-to-r 
+          <Link onClick={handleClose}
+            to={"/dashboard/subcategory"} className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
-          Sub Categoria
-        </Link>
+            Sub Categoria
+          </Link>
         )}
         {isAdmin(user.role) && (
-        <Link onClick={handleClose}
-         to={"/dashboard/upload-product"} className="px-2 hover:bg-gradient-to-r 
+          <Link onClick={handleClose}
+            to={"/dashboard/upload-product"} className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
-          Carregar Produtos
-        </Link>
+            Carregar Produtos
+          </Link>
         )}
         {isAdmin(user.role) && (
-        <Link onClick={handleClose}
-         to={"/dashboard/product"} className="px-2 hover:bg-gradient-to-r 
+          <Link onClick={handleClose}
+            to={"/dashboard/product"} className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
-          Produto
-        </Link>
+            Produto
+          </Link>
         )}
-       
+
         <Link onClick={handleClose}
-         to={"/dashboard/myorders"} className="px-2 hover:bg-gradient-to-r 
+          to={"/dashboard/myorders"} className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
           Meus Pedidos
         </Link>
-     
-        <Link 
-          onClick={handleClose} 
-          to={"/dashboard/address"} 
+
+        <Link
+          onClick={handleClose}
+          to={"/dashboard/address"}
           className="px-2 hover:bg-gradient-to-r 
         from-orange-300 via-orange-600">
           Salvar Endereço
         </Link>
-      
-        <button 
+        {
+          user.role === "ADMIN" && (
+            <Link
+              to="/dashboard/banners"
+              className="px-2 py-1 hover:bg-orange-200 rounded transition"
+            >
+              Banners do Carrossel
+            </Link>
+          )
+        }
+    
+
+        <button
           onClick={handleLogout}
           className="text-left font-semibold bg-gradient-to-r  
         from-orange-300 via-orange-600 text-center text-white text-lg rounded-lg py-2 px-2"

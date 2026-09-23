@@ -1,3 +1,5 @@
+// codigo original
+/*
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AxiosToastError from '../utils/AxiosToastError';
@@ -59,7 +61,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
     };
 
     const redirectURL = handleRedirectProductListpage();
-
+   
     return (
         <div>
             <div className='container mx-auto p-4 flex items-center justify-between gap-4'>
@@ -98,6 +100,126 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
                     <button
                         onClick={handleScrollRight}
                         className='z-10 relative bg-white hover:bg-gray-100 shadow-lg text-lg p-2 rounded-full'>
+                        <FaAngleRight />
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CategoryWiseProductDisplay; */
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import AxiosToastError from '../utils/AxiosToastError';
+import Axios from '../utils/Axios';
+import SummaryApi from '../common/SummaryApi';
+import CardLoading from './CardLoading';
+import CardProduct from './CardProduct';
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
+import { valideURLConvert } from '../utils/valideURLConvert';
+
+const CategoryWiseProductDisplay = ({ id, name }) => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const containerRef = useRef();
+    const subCategoryData = useSelector(state => state.product.allSubCategory);
+    const loadingCardNumber = new Array(6).fill(null);
+
+    const fetchCategoryWiseProduct = async () => {
+        try {
+            setLoading(true);
+            const response = await Axios({
+                ...SummaryApi.getProductByCategory,
+                data: { id }
+            });
+
+            const { data: responseData } = response;
+
+            if (responseData.success) {
+                setData(responseData.data);
+            }
+        } catch (error) {
+            AxiosToastError(error); 
+        } finally {
+            setLoading(false); 
+        }
+    };
+
+    useEffect(() => {
+        fetchCategoryWiseProduct();
+    }, []);
+
+    const handleScrollRight = () => {
+        containerRef.current.scrollLeft += 280;
+    };
+
+    const handleScrollLeft = () => {
+        containerRef.current.scrollLeft -= 280;
+    };
+
+    const handleRedirectProductListpage = () => {
+        const subcategory = subCategoryData?.find(sub => {
+            const filterData = sub?.category?.some(c => {
+                const catId = typeof c === 'object' ? c?._id : c;
+                return catId === id;
+            });
+            return filterData ? true : null;
+        });
+
+        const url = `/${valideURLConvert(name)}-${id}/${valideURLConvert(subcategory?.name)}-${subcategory?._id}`;
+        return url;
+    };
+
+    const redirectURL = handleRedirectProductListpage();
+
+    if (!loading && data.length === 0) {
+        return null;
+    }
+
+    return (
+        <div className='my-4'>
+            <div className='container mx-auto p-4 flex items-center justify-between gap-4'>
+                <h3 className='font-semibold text-lg md:text-xl'>{name}</h3>
+                <Link to={redirectURL} className='text-green-600 hover:text-green-400 text-sm md:text-base font-medium'>
+                    Todos os produtos
+                </Link>
+            </div>
+
+            <div className='relative flex items-center group'>
+                <div
+                    ref={containerRef}
+                    className='flex items-stretch gap-4 md:gap-5 container mx-auto px-4 py-2 overflow-x-auto scrollbar-none scroll-smooth flex-nowrap'
+                >
+                    {loading &&
+                        loadingCardNumber.map((_, index) => (
+                            <div key={"loading-" + index} className="min-w-[260px] md:min-w-[270px] shrink-0 h-auto">
+                                <CardLoading />
+                            </div>
+                        ))
+                    }
+
+                    {!loading &&
+                        data.map((p, index) => (
+                            <div key={p._id + "CategorywiseProductDisplay" + index} className="min-w-[260px] md:min-w-[270px] max-w-[280px] shrink-0 h-auto">
+                                <CardProduct data={p} />
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <div className='w-full left-0 right-0 container mx-auto px-2 absolute hidden lg:flex justify-between pointer-events-none'>
+                    <button
+                        onClick={handleScrollLeft} 
+                        className='z-10 relative bg-white hover:bg-gray-100 shadow-lg text-lg p-2 rounded-full pointer-events-auto border border-gray-100'
+                    >
+                        <FaAngleLeft />
+                    </button>
+                    <button
+                        onClick={handleScrollRight}
+                        className='z-10 relative bg-white hover:bg-gray-100 shadow-lg text-lg p-2 rounded-full pointer-events-auto border border-gray-100'
+                    >
                         <FaAngleRight />
                     </button>
                 </div>

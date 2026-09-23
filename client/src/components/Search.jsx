@@ -10,8 +10,10 @@ const Search = () => {
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
   const [isMobile] = useMobile();
-  const params = useLocation();
-  const searchText = params.search.slice(3);
+  
+  // Forma segura de pegar o parâmetro 'q' da URL (ex: /search?q=leite)
+  const params = new URLSearchParams(location.search);
+  const searchText = params.get("q") || "";
 
   useEffect(() => {
     const isSearch = location.pathname === "/search";
@@ -22,8 +24,18 @@ const Search = () => {
     navigate("/search");
   };
 
+  // Função para atualizar a URL conforme o usuário digita
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+    if (value) {
+      navigate(`/search?q=${value}`);
+    } else {
+      navigate(`/search`);
+    }
+  };
+
   return (
-    <div className="w-full  min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-primary-200 ">
+    <div className="w-full min-w-[300px] lg:min-w-[420px] h-11 lg:h-12 rounded-lg border overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-primary-200">
       <div>
         {isMobile && isSearchPage ? (
           <Link
@@ -38,31 +50,32 @@ const Search = () => {
           </button>
         )}
       </div>
-      <div className="w-full h-full">
+      <div className="w-full h-full flex items-center px-2">
         {!isSearchPage ? (
           <div
             onClick={redirectToSearchPage}
-            className="w-full h-full flex items-center"
+            className="w-full h-full flex items-center cursor-pointer"
           >
             <TypeAnimation
               sequence={[
-                'Pesquisar "Leite"',
+                'Pesquisar "Mesa"',
                 1000,
-                'Pesquisar "Pao"',
+                'Pesquisar "Bolsa"',
                 1000,
-                'Pesquisar "Acucar"',
+                'Pesquisar "Cadeira"',
                 1000,
-                'Pesquisar "Panela"',
+                'Pesquisar "Sofá"',
                 1000,
-                'Pesquisar "Chocolates"',
+                'Pesquisar "Geladeira"',
                 1000,
-                'Pesquisar "Doces"',
+                'Pesquisar "Fogão"',
                 1000,
-                'Pesquisar "Arroz"',
+                'Pesquisar "Micro-ondas"',
                 1000,
-                'Pesquisar "ovos"',
+                'Pesquisar "Bicicleta"',
                 1000,
-                'Pesquisar "Batatas"',
+                'Pesquisar "Notebook"',
+                1000,
               ]}
               wrapper="span"
               speed={50}
@@ -70,14 +83,14 @@ const Search = () => {
             />
           </div>
         ) : (
-          <div className="w-full h-full">
+          <div className="w-full h-full flex items-center">
             <input
               type="text"
               placeholder="Pesquisar por produtos e mais."
               autoFocus
-              //defaultValue={searchText}
-              className="bg-transparent w-full h-full outline-none"
-              //onChange={handleOnChange}
+              defaultValue={searchText}
+              onChange={handleOnChange}
+              className="bg-transparent w-full h-full outline-none text-neutral-800"
             />
           </div>
         )}

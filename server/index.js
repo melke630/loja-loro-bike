@@ -49,7 +49,8 @@ connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
   });
-});*/
+});
+*/
 
 
 // codigo do gemini
@@ -121,6 +122,7 @@ connectDB().then(() => {
 });
 */
 
+
 // codigo do gemini
 
 import express from 'express';
@@ -142,6 +144,9 @@ import uploadRouter from './route/upload.router.js';
 import subCategoryRouter from './route/subCategoy.route.js';
 import productRouter from './route/product.route.js';
 import cartRouter from './route/cart.route.js'; // 🟢 Pasta 'route' no singular e caminho corrigido
+import orderRouter from './route/order.route.js'; // O arquivo de rotas que criamos antes
+import addressRouter from './route/address.route.js';
+import bannerRouter from './route/banner.route.js';
 
 dotenv.config();
 
@@ -183,6 +188,9 @@ app.use('/api/file', uploadRouter);
 app.use('/api/subcategory', subCategoryRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter); // 🟢 Cadastrado após a inicialização do 'app'
+app.use('/api/order', orderRouter); // 🟢 Cadastrado após a inicialização do 'app'
+app.use('/api/address', addressRouter); // 🟢 Cadastrado após a inicialização do 'app'
+app.use('/api/banner', bannerRouter);
 
 const PORT = process.env.PORT || 8080;
 
@@ -192,3 +200,4 @@ connectDB().then(() => {
     console.log(`🚀 Servidor rodando na porta ${PORT}`);
   });
 });
+

@@ -97,6 +97,59 @@ const SummaryApi = {
     url: "/api/product/get-product-details",
     method: "post",
   },
+  updateProductDetails: {
+    url: "/api/product/update-product", // Confirme se a URL no seu backend é essa ou /api/product/update
+    method: "put", // ou "patch", dependendo de como seu backend foi construído
+  },
+  deleteProduct: {
+    url: "/api/product/delete",
+    method: "delete",
+  },
+  addCartItem: {
+    url: "/api/cart/create",
+    method: "post",
+  },
+  getCartItem: {
+    url: "/api/cart/get",
+    method: "get",
+  },
+  updateCartItemQty: {
+    url: "/api/cart/update-qty",
+    method: "put",
+  },
+  deleteCartItem: {
+    url: "/api/cart/delete",
+    method: "delete",
+  },
+  createOrder: {
+    url: "/api/order/create-order",
+    method: "post",
+  },
+  getOrder: {
+    url: '/api/order/get-order',
+    method: 'get'
+},
+  createAddress: {
+        url: '/api/address/create', // Verifique se a URL do seu backend é essa mesma
+        method: 'post'
+},
+  searchProduct: {
+    url: '/api/product/search-product', // ou o caminho da sua rota no backend
+    method: 'post' // ou 'get'
+},
+  getBanner: {
+    url: "/api/banner/get",
+    method: "get"
+  },
+  addBanner: {
+    url: "/api/banner/add",
+    method: "post"
+  },
+ 
+  deleteBanner: {
+    url: "/api/banner/delete",
+    method: "delete"
+  }
 };
 
 export default SummaryApi;
