@@ -157,6 +157,7 @@ const CategoryPage = () => {
 
 export default CategoryPage; */
 // codigo corrigido do gemini
+
 import React, { useEffect, useState } from "react";
 import UploadCategoryModel from "../components/UploadCategoryModel";
 import Loading from "../components/Loading";

@@ -109,6 +109,7 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
 };
 
 export default CategoryWiseProductDisplay; */
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AxiosToastError from '../utils/AxiosToastError';
