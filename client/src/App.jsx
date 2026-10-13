@@ -441,6 +441,7 @@ function App() {
 
 export default App; */
 // codigo do gemini corrigido pela milesima vez
+
 import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
@@ -453,6 +454,7 @@ import { setUserDetails } from "./store/userSlice";
 import { setAllCategory, setAllSubCategory, setLoadingCategory } from "./store/productSlice";
 import Axios from "./utils/Axios";
 import SummaryApi from "./common/SummaryApi";
+
 
 function App() {
   const dispatch = useDispatch();

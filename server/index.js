@@ -123,8 +123,8 @@ connectDB().then(() => {
 */
 
 
-// codigo do gemini
-
+// codigo do gemini 
+/*
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -201,3 +201,76 @@ connectDB().then(() => {
   });
 });
 
+*/
+// codigo do gemini do dia 09/10/2026
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import helmet from 'helmet';
+
+// Configuração do Banco de Dados
+import connectDB from './config/connectDB.js';
+
+// Importação das Rotas
+import userRouter from './route/user.route.js';
+import categoryRouter from './route/category.route.js';
+import uploadRouter from './route/upload.router.js';
+import subCategoryRouter from './route/subCategoy.route.js';
+import productRouter from './route/product.route.js';
+import cartRouter from './route/cart.route.js';
+import orderRouter from './route/order.route.js';
+import addressRouter from './route/address.route.js';
+import bannerRouter from './route/banner.route.js';
+
+dotenv.config();
+
+const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middlewares - LIBERADO PARA CELULAR
+app.use(
+  cors({
+    credentials: true,
+    origin: true, // <-- libera qualquer IP da sua rede
+  })
+);
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(morgan('dev'));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false
+  })
+);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Servidor se comunicando com frontend' });
+});
+
+app.use('/api/user', userRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/file', uploadRouter);
+app.use('/api/subcategory', subCategoryRouter);
+app.use('/api/product', productRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/address', addressRouter);
+app.use('/api/banner', bannerRouter);
+
+const PORT = process.env.PORT || 8080;
+
+connectDB().then(() => {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT}`);
+    console.log(`📱 Rede: http://192.168.0.108:${PORT}`);
+  });
+});

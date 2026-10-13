@@ -249,6 +249,7 @@ const Cart = () => {
 
 export default Cart; */
 // codigo do gemini
+
 import React, { useEffect, useState } from 'react';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';

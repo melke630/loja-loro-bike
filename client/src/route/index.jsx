@@ -100,7 +100,9 @@ const router = createBrowserRouter([
 ]);
 
 export default router; */
+
 // codigo do gemini corrigido
+import MyAddress from "../pages/MyAddress";
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
@@ -114,7 +116,7 @@ import UserMenuMobile from "../pages/UserMenuMobile";
 import Dashboard from "../layouts/Dashboard";
 import Profile from "../pages/Profile";
 import MyOrders from "../pages/MyOrders";
-import Address from "../pages/Address";
+//import Address from "../pages/Address";
 import CategoryPage from "../pages/CategoryPage";
 import SubCategoryPage from "../pages/SubCategoryPage";
 import UploadProduct from "../pages/UploadProduct";
@@ -148,7 +150,8 @@ const router = createBrowserRouter([
         children: [
           { path: "profile", element: <Profile /> },
           { path: "myorders", element: <MyOrders /> },
-          { path: "address", element: <Address /> },
+          //{ path: "address", element: <Address /> },
+          { path: "address", element: <MyAddress /> }, // <-- Tem de estar MyAddress aqui!
           {
             path: "category",
             element: (

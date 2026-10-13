@@ -141,6 +141,8 @@ const Header = () => {
 };
 
 export default Header; */
+// comentado no dia 12/10/2026 codigo funcional
+/*
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Search from "./Search";
@@ -179,12 +181,12 @@ const Header = () => {
     <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
       {!(isSearchPage && isMobile) && (
         <>
-          {/* --- BARRA PRINCIPAL DO TOPO --- */}
+          {/* --- BARRA PRINCIPAL DO TOPO --- 
           <div className="w-full px-4 lg:px-10 h-20 flex items-center justify-between gap-4 border-b border-gray-100">
             
-            {/* Coluna 1: Logo + Menu (O ícone de menu com 3 barrinhas só aparece no mobile lá em cima) */}
+            {/* Coluna 1: Logo + Menu (O ícone de menu com 3 barrinhas só aparece no mobile lá em cima) 
             <div className="flex items-center gap-3">
-              {/* Este botão só aparece no telemóvel (lg:hidden) */}
+              {/* Este botão só aparece no telemóvel (lg:hidden) 
               <button
                 onClick={() => setOpenCategoryMenu(!openCategoryMenu)}
                 className="text-2xl text-neutral-700 hover:text-black cursor-pointer p-1 lg:hidden"
@@ -207,17 +209,17 @@ const Header = () => {
               </Link>
             </div>
 
-            {/* Coluna 2: Search Desktop */}
+            {/* Coluna 2: Search Desktop 
             <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4">
               <div className="w-full">
                 <Search />
               </div>
             </div>
 
-            {/* Coluna 3: Área de usuário e Carrinho */}
+            {/* Coluna 3: Área de usuário e Carrinho 
             <div className="flex items-center justify-end gap-4 lg:gap-6">
               
-              {/* CARRINHO */}
+              {/* CARRINHO 
               <Link
                 to="/cart"
                 className="flex items-center gap-1.5 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 px-3 py-2 lg:px-4 rounded-lg text-white hover:opacity-90 transition-opacity shadow-sm"
@@ -228,7 +230,7 @@ const Header = () => {
                 <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
               </Link>
 
-              {/* Botão mobile de usuário */}
+              {/* Botão mobile de usuário 
               <button
                 className="text-neutral-600 lg:hidden cursor-pointer"
                 onClick={() => {
@@ -242,14 +244,14 @@ const Header = () => {
                 <FaRegCircleUser size={26} />
               </button>
 
-              {/* Painel mobile */}
+              {/* Painel mobile 
               {openUserMenuMobile && (
                 <div className="fixed inset-0 bg-white z-50">
                   <UserMenuMobile close={() => setOpenUserMenuMobile(false)} />
                 </div>
               )}
 
-              {/* Desktop User */}
+              {/* Desktop User 
               <div className="hidden lg:flex items-center gap-6">
                 {user?._id ? (
                   <div className="relative">
@@ -286,7 +288,7 @@ const Header = () => {
 
           </div>
 
-          {/* --- FAIXA SECUNDÁRIA (ESTILO AMAZON - APENAS DESKTOP, COM O MENU LÁ DENTRO) --- */}
+          {/* --- FAIXA SECUNDÁRIA (ESTILO AMAZON - APENAS DESKTOP, COM O MENU LÁ DENTRO) --- 
           <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
             <button 
               onClick={() => setOpenCategoryMenu(!openCategoryMenu)}
@@ -302,7 +304,7 @@ const Header = () => {
         </>
       )}
 
-      {/* Search mobile */}
+      {/* Search mobile 
       <div className="container mx-auto px-4 lg:hidden py-2 bg-gradient-to-r from-green-500 via-green-400 to-green-500">
         <Search />
       </div>
@@ -310,4 +312,94 @@ const Header = () => {
   );
 };
 
+export default Header; */
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
+import Search from "./Search";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
+import useMobile from "../hooks/useMobile";
+import { BsCart4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { IoMenu } from "react-icons/io5";
+import UserMenu from "./UserMenu";
+
+const Header = () => {
+  const [isMobile] = useMobile();
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+  const navigate = useNavigate();
+  const user = useSelector((state) => state?.user?.user || state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [openCategoryMenu, setOpenCategoryMenu] = useState(false);
+
+  const redirectToLoginPage = () => navigate("/login");
+
+  return (
+    <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
+      {!(isSearchPage && isMobile) && (
+        <>
+          <div className="w-full px-4 lg:px-10 h-20 flex items-center justify-between gap-4 border-b border-gray-100">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="text-2xl text-neutral-700 lg:hidden p-1">
+                <IoMenu />
+              </button>
+              <Link to={"/"}><img src={logo} alt="logo" className="hidden lg:block h-14 w-auto object-contain" /><img src={logo} alt="logo" className="lg:hidden h-10 w-auto object-contain" /></Link>
+            </div>
+
+            <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4"><div className="w-full"><Search /></div></div>
+
+            <div className="flex items-center justify-end gap-4 lg:gap-6">
+              <Link to="/cart" className="flex items-center gap-1.5 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 px-3 py-2 rounded-lg text-white shadow-sm">
+                <div className="animate-bounce"><BsCart4 size={20} /></div>
+                <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+              </Link>
+
+              {/* ===== AQUI É IGUAL NOS DOIS - SÓ MUDA O TAMANHO ===== */}
+              {user?._id? (
+                <div className="relative">
+                  {/* Botão mobile */}
+                  <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}>
+                    <FaRegCircleUser size={26} />
+                  </button>
+
+                  {/* Botão desktop */}
+                  <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
+                    <p>Minha conta</p>
+                    {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
+                  </div>
+
+                  {/* MESMO MENU DOS DOIS - NO MOBILE SÓ FICA MAIOR */}
+                  {openUserMenu && (
+                    <>
+                      {/* fundo pra fechar clicando fora */}
+                      <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
+                      <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
+                        <UserMenu close={() => setOpenUserMenu(false)} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button className="text-neutral-600 lg:hidden" onClick={redirectToLoginPage}><FaRegCircleUser size={26} /></button>
+                  <button onClick={redirectToLoginPage} className="hidden lg:block text-base font-medium px-2 text-slate-800">Entrar</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
+            <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="flex items-center gap-2"><IoMenu size={20} /><span>Todas as Categorias</span></button>
+            <Link to="/produtos">Ver Produtos</Link>
+            <Link to="/ofertas">Ofertas do Dia</Link>
+            <Link to="/category">Departamentos</Link>
+          </div>
+        </>
+      )}
+      <div className="container mx-auto px-4 lg:hidden py-2"><Search /></div>
+    </header>
+  );
+};
 export default Header;

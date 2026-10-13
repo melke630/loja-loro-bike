@@ -1,5 +1,5 @@
-export const baseURL = "http://localhost:8080";
-
+//export const baseURL = "http://localhost:8080"; // comentei no dia 09/10/2026
+export const baseURL = `http://${window.location.hostname}:8080`;
 const SummaryApi = {
   register: {
     url: "/api/user/register",
@@ -149,7 +149,19 @@ const SummaryApi = {
   deleteBanner: {
     url: "/api/banner/delete",
     method: "delete"
-  }
+  },
+    getAddress: {   //codigo do dia 10/10/2026
+    url: '/api/address/get',
+    method: 'get'
+  },
+  updateAddress: {
+    url: '/api/address/update',
+    method: 'put'
+  },
+  deleteAddress: {
+    url: '/api/address/delete',
+    method: 'delete'
+  },
 };
 
 export default SummaryApi;
