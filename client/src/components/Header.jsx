@@ -313,6 +313,7 @@ const Header = () => {
 };
 
 export default Header; */
+/*
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Search from "./Search";
@@ -356,24 +357,423 @@ const Header = () => {
                 <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
               </Link>
 
-              {/* ===== AQUI É IGUAL NOS DOIS - SÓ MUDA O TAMANHO ===== */}
+              {/* ===== AQUI É IGUAL NOS DOIS - SÓ MUDA O TAMANHO ===== 
               {user?._id? (
                 <div className="relative">
-                  {/* Botão mobile */}
+                  {/* Botão mobile 
                   <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}>
                     <FaRegCircleUser size={26} />
                   </button>
 
-                  {/* Botão desktop */}
+                  {/* Botão desktop 
                   <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
                     <p>Minha conta</p>
                     {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
                   </div>
 
-                  {/* MESMO MENU DOS DOIS - NO MOBILE SÓ FICA MAIOR */}
+                  {/* MESMO MENU DOS DOIS - NO MOBILE SÓ FICA MAIOR 
                   {openUserMenu && (
                     <>
-                      {/* fundo pra fechar clicando fora */}
+                      {/* fundo pra fechar clicando fora 
+                      <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
+                      <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
+                        <UserMenu close={() => setOpenUserMenu(false)} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button className="text-neutral-600 lg:hidden" onClick={redirectToLoginPage}><FaRegCircleUser size={26} /></button>
+                  <button onClick={redirectToLoginPage} className="hidden lg:block text-base font-medium px-2 text-slate-800">Entrar</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
+            <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="flex items-center gap-2"><IoMenu size={20} /><span>Todas as Categorias</span></button>
+            <Link to="/produtos">Ver Produtos</Link>
+            <Link to="/ofertas">Ofertas do Dia</Link>
+            <Link to="/category">Departamentos</Link>
+          </div>
+        </>
+      )}
+      <div className="container mx-auto px-4 lg:hidden py-2"><Search /></div>
+    </header>
+  );
+};
+export default Header; */
+/* codigo funcional comentado no dia 14/10/2026
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
+import Search from "./Search";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
+import useMobile from "../hooks/useMobile";
+import { BsCart4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { IoMenu } from "react-icons/io5";
+import UserMenu from "./UserMenu";
+
+const Header = () => {
+  const [isMobile] = useMobile();
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+  const navigate = useNavigate();
+  const user = useSelector((state) => state?.user?.user || state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [openCategoryMenu, setOpenCategoryMenu] = useState(false);
+
+  const redirectToLoginPage = () => navigate("/login");
+
+  return (
+    <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
+      {!(isSearchPage && isMobile) && (
+        <>
+          <div className="w-full px-2 sm:px-4 lg:px-10 h-20 flex items-center justify-between gap-2 border-b border-gray-100">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="text-2xl text-neutral-700 lg:hidden p-1">
+                <IoMenu />
+              </button>
+              <Link to={"/"} className="-ml-6 sm:ml-3 shrink-0 flex">
+                <img src={logo} alt="logo" className="hidden lg:block h-14 w-auto object-contain" />
+                <img src={logo} alt="logo" className="lg:hidden h-[52px] w-[175px] object-contain" />
+              </Link>
+            </div>
+
+            <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4"><div className="w-full"><Search /></div></div>
+
+            <div className="flex items-center justify-end gap-4 lg:gap-6">
+              <Link to="/cart" className="flex items-center gap-1.5 bg-gradient-to-r from-red-500 via-orange-600 to-yellow-500 px-3 py-2 rounded-lg text-white shadow-sm">
+                <div className="animate-bounce"><BsCart4 size={20} /></div>
+                <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+              </Link>
+
+              {user?._id? (
+                <div className="relative">
+                  <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}>
+                    <FaRegCircleUser size={26} />
+                  </button>
+
+                  <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
+                    <p>Minha conta</p>
+                    {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
+                  </div>
+
+                  {openUserMenu && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
+                      <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
+                        <UserMenu close={() => setOpenUserMenu(false)} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button className="text-neutral-600 lg:hidden" onClick={redirectToLoginPage}><FaRegCircleUser size={26} /></button>
+                  <button onClick={redirectToLoginPage} className="hidden lg:block text-base font-medium px-2 text-slate-800">Entrar</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
+            <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="flex items-center gap-2"><IoMenu size={20} /><span>Todas as Categorias</span></button>
+            <Link to="/produtos">Ver Produtos</Link>
+            <Link to="/ofertas">Ofertas do Dia</Link>
+            <Link to="/category">Departamentos</Link>
+          </div>
+        </>
+      )}
+      <div className="container mx-auto px-4 lg:hidden py-2"><Search /></div>
+    </header>
+  );
+};
+export default Header; */
+// comentado no dia 14/10/2026 codigo funcional
+/*
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
+import Search from "./Search";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
+import useMobile from "../hooks/useMobile";
+import { BsCart4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { IoMenu } from "react-icons/io5";
+import UserMenu from "./UserMenu";
+
+const Header = () => {
+  const [isMobile] = useMobile();
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+  const navigate = useNavigate();
+  const user = useSelector((state) => state?.user?.user || state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [openCategoryMenu, setOpenCategoryMenu] = useState(false);
+
+  const redirectToLoginPage = () => navigate("/login");
+
+  return (
+    <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
+      {!(isSearchPage && isMobile) && (
+        <>
+          <div className="w-full px-2 sm:px-4 lg:px-10 h-20 flex items-center justify-between gap-2 border-b border-white/20">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="text-2xl text-neutral-700 lg:hidden p-1">
+                <IoMenu />
+              </button>
+              <Link to={"/"} className="-ml-7 sm:ml-3 shrink-0 flex">
+                <img src={logo} alt="logo" className="hidden lg:block h-14 w-auto object-contain" />
+                <img src={logo} alt="logo" className="lg:hidden h-[52px] w-[175px] object-contain" />
+              </Link>
+            </div>
+
+            <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4"><div className="w-full"><Search /></div></div>
+
+            <div className="flex items-center justify-end gap-4 lg:gap-6">
+              <Link to="/cart" className="flex items-center gap-1.5 text-white">
+                <BsCart4 size={26} />
+                <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+              </Link>
+
+              {user?._id? (
+                <div className="relative">
+                  <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}>
+                    <FaRegCircleUser size={26} />
+                  </button>
+
+                  <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
+                    <p>Minha conta</p>
+                    {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
+                  </div>
+
+                  {openUserMenu && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
+                      <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
+                        <UserMenu close={() => setOpenUserMenu(false)} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button className="text-neutral-600 lg:hidden" onClick={redirectToLoginPage}><FaRegCircleUser size={26} /></button>
+                  <button onClick={redirectToLoginPage} className="hidden lg:block text-base font-medium px-2 text-slate-800">Entrar</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
+            <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="flex items-center gap-2"><IoMenu size={20} /><span>Todas as Categorias</span></button>
+            <Link to="/produtos">Ver Produtos</Link>
+            <Link to="/ofertas">Ofertas do Dia</Link>
+            <Link to="/category">Departamentos</Link>
+          </div>
+        </>
+      )}
+      <div className="container mx-auto px-4 lg:hidden py-2"><Search /></div>
+    </header>
+  );
+};
+export default Header; */
+/*
+import React, { useState } from "react";
+import logo from "../assets/logo.png";
+import Search from "./Search";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
+import useMobile from "../hooks/useMobile";
+import { BsCart4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { IoMenu } from "react-icons/io5";
+import UserMenu from "./UserMenu";
+import { useGlobalContext } from "../provider/GlobalProvider";
+
+const Header = () => {
+  const [isMobile] = useMobile();
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+  const navigate = useNavigate();
+  const user = useSelector((state) => state?.user?.user || state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [openCategoryMenu, setOpenCategoryMenu] = useState(false);
+
+  const { cartItem } = useGlobalContext();
+  
+  const cartCount = cartItem?.reduce((total, item) => total + (item.quantity || 1), 0) || 0;
+
+  const redirectToLoginPage = () => navigate("/login");
+
+  return (
+    <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
+      {!(isSearchPage && isMobile) && (
+        <>
+          <div className="w-full px-2 sm:px-4 lg:px-10 h-20 flex items-center justify-between gap-2 border-b border-white/20">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="text-2xl text-neutral-700 lg:hidden p-1">
+                <IoMenu />
+              </button>
+              <Link to={"/"} className="-ml-7 sm:ml-3 shrink-0 flex">
+                <img src={logo} alt="logo" className="hidden lg:block h-14 w-auto object-contain" />
+                <img src={logo} alt="logo" className="lg:hidden h-[52px] w-[175px] object-contain" />
+              </Link>
+            </div>
+
+            <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4"><div className="w-full"><Search /></div></div>
+
+            <div className="flex items-center justify-end gap-4 lg:gap-6">
+              <Link to="/cart" className="relative flex items-center gap-1.5 text-white">
+                <div className="relative">
+                  <BsCart4 size={26} />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
+                <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+              </Link>
+
+              {user?._id? (
+                <div className="relative">
+                  <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}>
+                    <FaRegCircleUser size={26} />
+                  </button>
+
+                  <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
+                    <p>Minha conta</p>
+                    {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
+                  </div>
+
+                  {openUserMenu && (
+                    <>
+                      <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
+                      <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
+                        <UserMenu close={() => setOpenUserMenu(false)} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button className="text-neutral-600 lg:hidden" onClick={redirectToLoginPage}><FaRegCircleUser size={26} /></button>
+                  <button onClick={redirectToLoginPage} className="hidden lg:block text-base font-medium px-2 text-slate-800">Entrar</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="bg-neutral-900 text-white px-6 lg:px-10 py-2 hidden lg:flex items-center gap-6 text-sm font-medium">
+            <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="flex items-center gap-2"><IoMenu size={20} /><span>Todas as Categorias</span></button>
+            <Link to="/produtos">Ver Produtos</Link>
+            <Link to="/ofertas">Ofertas do Dia</Link>
+            <Link to="/category">Departamentos</Link>
+          </div>
+        </>
+      )}
+      <div className="container mx-auto px-4 lg:hidden py-2"><Search /></div>
+    </header>
+  );
+};
+export default Header; */
+import React, { useState, useEffect } from "react";
+import logo from "../assets/logo.png";
+import Search from "./Search";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaRegCircleUser } from "react-icons/fa6";
+import useMobile from "../hooks/useMobile";
+import { BsCart4 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { IoMenu } from "react-icons/io5";
+import UserMenu from "./UserMenu";
+import Axios from "../utils/Axios";
+import SummaryApi from "../common/SummaryApi";
+
+const Header = () => {
+  const [isMobile] = useMobile();
+  const location = useLocation();
+  const isSearchPage = location.pathname === "/search";
+  const navigate = useNavigate();
+  const user = useSelector((state) => state?.user?.user || state?.user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const [openCategoryMenu, setOpenCategoryMenu] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  const fetchCartCount = async () => {
+    if (!user?._id) { setCartCount(0); return; }
+    try {
+      const response = await Axios({...SummaryApi.getCartItem });
+      const data = response?.data?.data || [];
+      console.log("HEADER CART:", data);
+      const total = data.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      setCartCount(total);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchCartCount();
+
+    // 1. Ouve quando algum botão avisa que o carrinho mudou
+    const handleCartUpdate = () => fetchCartCount();
+    window.addEventListener("cartUpdated", handleCartUpdate);
+
+    // 2. Backup: verifica a cada 1.5s pra nunca ficar desatualizado
+    const interval = setInterval(fetchCartCount, 1500);
+
+    return () => {
+      window.removeEventListener("cartUpdated", handleCartUpdate);
+      clearInterval(interval);
+    };
+  }, [user?._id, location.pathname]);
+
+  const redirectToLoginPage = () => navigate("/login");
+
+  return (
+    <header className="bg-gradient-to-r from-green-500 via-green-400 to-green-500 lg:shadow-md sticky top-0 z-40 flex flex-col">
+      {!(isSearchPage && isMobile) && (
+        <>
+          <div className="w-full px-2 sm:px-4 lg:px-10 h-20 flex items-center justify-between gap-2 border-b border-white/20">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button onClick={() => setOpenCategoryMenu(!openCategoryMenu)} className="text-2xl text-neutral-700 lg:hidden p-1"><IoMenu /></button>
+              <Link to={"/"} className="-ml-7 sm:ml-3 shrink-0 flex">
+                <img src={logo} alt="logo" className="hidden lg:block h-14 w-auto object-contain" />
+                <img src={logo} alt="logo" className="lg:hidden h-[52px] w-[175px] object-contain" />
+              </Link>
+            </div>
+
+            <div className="hidden lg:flex justify-center flex-1 max-w-xl mx-4"><div className="w-full"><Search /></div></div>
+
+            <div className="flex items-center justify-end gap-4 lg:gap-6">
+              <Link to="/cart" className="relative flex items-center gap-1.5 text-white">
+                <div className="relative">
+                  <BsCart4 size={26} />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center z-50">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
+                <div className="font-semibold text-xs lg:text-sm">Meu Carrinho</div>
+              </Link>
+
+              {user?._id? (
+                <div className="relative">
+                  <button className="text-neutral-600 lg:hidden cursor-pointer" onClick={() => setOpenUserMenu(!openUserMenu)}><FaRegCircleUser size={26} /></button>
+                  <div onClick={() => setOpenUserMenu(!openUserMenu)} className="hidden lg:flex select-none items-center gap-1 cursor-pointer font-medium text-slate-800">
+                    <p>Minha conta</p>
+                    {openUserMenu? <GoTriangleUp size={22} /> : <GoTriangleDown size={22} />}
+                  </div>
+                  {openUserMenu && (
+                    <>
                       <div className="fixed inset-0 z-40" onClick={() => setOpenUserMenu(false)} />
                       <div className="absolute right-0 top-12 z-50 w-[85vw] max-w-[340px] lg:w-auto lg:min-w-52 bg-gradient-to-r from-green-400 via-green-300 to-green-200 rounded-lg p-5 lg:p-4 lg:shadow-lg">
                         <UserMenu close={() => setOpenUserMenu(false)} />

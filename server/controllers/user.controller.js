@@ -1,4 +1,5 @@
-import sendEmail from '../models/config/sendEmail.js';
+//import sendEmail from '../models/config/sendEmail.js';
+import sendEmail from '../config/sendEmail.js';
 import UserModel from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';

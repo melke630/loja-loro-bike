@@ -162,6 +162,9 @@ const SummaryApi = {
     url: '/api/address/delete',
     method: 'delete'
   },
+  createReview: { url: "/api/review/create",
+    method: "post"
+  },
 };
 
 export default SummaryApi;

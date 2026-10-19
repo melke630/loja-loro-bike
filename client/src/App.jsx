@@ -441,7 +441,7 @@ function App() {
 
 export default App; */
 // codigo do gemini corrigido pela milesima vez
-
+/* comentado no dia 14/10/2026 codigo funcional
 import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
@@ -533,6 +533,102 @@ function App() {
       <Footer />
       <Toaster />
     </>
+  );
+}
+
+export default App; */
+
+import { Outlet, useLocation } from "react-router-dom";
+import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import fetchUserDetails from "./utils/fetchUserDetails";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "./store/userSlice";
+import { setAllCategory, setAllSubCategory, setLoadingCategory } from "./store/productSlice";
+import Axios from "./utils/Axios";
+import SummaryApi from "./common/SummaryApi";
+import { GlobalProvider } from "./provider/GlobalProvider";
+
+// COMPONENTE QUE VOLTA PRO TOPO
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
+function App() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const fetchUser = async () => {
+    try {
+      const userData = await fetchUserDetails();
+      if (userData?.success && userData?.data) {
+        dispatch(setUserDetails(userData.data));
+      }
+    } catch (error) {
+      console.log("Visitante anônimo ou sessão expirada.");
+    }
+  };
+
+  const fetchCategory = async () => {
+    dispatch(setLoadingCategory(true));
+    try {
+      const response = await Axios({...SummaryApi.getCategory });
+      const responseData = response?.data;
+      if (responseData?.success && Array.isArray(responseData?.data)) {
+        const sortedCategories = [...responseData.data].sort((a, b) => {
+          const nameA = a?.name || a?.category || "";
+          const nameB = b?.name || b?.category || "";
+          return nameA.localeCompare(nameB);
+        });
+        dispatch(setAllCategory(sortedCategories));
+      }
+    } catch (error) {
+      console.error("Erro ao carregar categorias:", error);
+    } finally {
+      dispatch(setLoadingCategory(false));
+    }
+  };
+
+  const fetchSubCategory = async () => {
+    try {
+      const response = await Axios({...SummaryApi.getSubCategory });
+      const responseData = response?.data;
+      if (responseData?.success && Array.isArray(responseData?.data)) {
+        const sortedSubCategories = [...responseData.data].sort((a, b) => {
+          const nameA = a?.name || a?.subCategory || a?.title || "";
+          const nameB = b?.name || b?.subCategory || b?.title || "";
+          return nameA.localeCompare(nameB);
+        });
+        dispatch(setAllSubCategory(sortedSubCategories));
+      }
+    } catch (error) {
+      console.error("Erro ao carregar subcategorias:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+    fetchCategory();
+    fetchSubCategory();
+  }, []);
+
+  return (
+    <GlobalProvider>
+      <ScrollToTop />
+      <Header />
+      <main className="min-h-[85vh]">
+        <Outlet />
+      </main>
+      <Footer />
+      <Toaster />
+    </GlobalProvider>
   );
 }
 

@@ -1,3 +1,5 @@
+// comentado no dia 13/10/2026
+
 import React, { useEffect, useState } from "react";
 import UploadSubCategoryModel from "../components/UploadSubCategoryModel";
 import Axios from "../utils/Axios";

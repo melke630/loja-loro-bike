@@ -203,6 +203,7 @@ connectDB().then(() => {
 
 */
 // codigo do gemini do dia 09/10/2026
+
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -216,6 +217,7 @@ import helmet from 'helmet';
 import connectDB from './config/connectDB.js';
 
 // Importação das Rotas
+import reviewRouter from "./route/reviewRoute.js";
 import userRouter from './route/user.route.js';
 import categoryRouter from './route/category.route.js';
 import uploadRouter from './route/upload.router.js';
@@ -265,6 +267,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/address', addressRouter);
 app.use('/api/banner', bannerRouter);
+app.use("/api/review", reviewRouter);
 
 const PORT = process.env.PORT || 8080;
 
