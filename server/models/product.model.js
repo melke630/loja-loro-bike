@@ -63,6 +63,7 @@ productSchema.index({
 const ProductModel = mongoose.model("product", productSchema);
 export default ProductModel; */
 // codigo corrigido do gemini
+
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({

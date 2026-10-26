@@ -1,3 +1,4 @@
+import ProductModel from "../models/product.model.js";
 import CartProductModel from "../models/cartproduct.model.js";
 import UserModel from "../models/user.model.js";
 

@@ -1,11 +1,12 @@
 // codigo funcional
+
 import mongoose from "mongoose";
 
 const cartProductSchema = new mongoose.Schema(
   {
     productId: {
       type: mongoose.Schema.ObjectId,
-      ref: "product",
+      ref: "product", // era product e coloquei Product para funcionar o populate
       required: true,
     },
     quantity: {

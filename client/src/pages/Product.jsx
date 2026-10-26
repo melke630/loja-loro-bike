@@ -47,6 +47,8 @@ const Product = () => {
 
 export default Product */
 // codigo corrigido do gemini
+// comentadono dia 20/10/2026
+/*
 import React, { useEffect, useState } from 'react'
 import SummaryApi from '../common/SummaryApi'
 import AxiosToastError from '../utils/AxiosToastError'
@@ -123,7 +125,7 @@ const Product = () => {
                 </div>
             </div>
 
-            {/* BARRA DE NAVEGAÇÃO E PAGINAÇÃO */}
+            {/* BARRA DE NAVEGAÇÃO E PAGINAÇÃO 
             <div className='flex justify-between items-center my-4 gap-2'>
                 <button 
                     onClick={handlePrevious} 
@@ -149,5 +151,61 @@ const Product = () => {
     )
 }
 
-export default Product
+export default Product */
 
+// category.js - Adaptado do product-category.ts da Medusa
+
+import mongoose from "mongoose";
+
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    default: ""
+  },
+  handle: {
+    type: String,
+    required: true,
+    unique: true // igual o IDX_category_handle_unique da Medusa
+  },
+  mpath: {
+    type: String,
+    default: ""
+  },
+  is_active: {
+    type: Boolean,
+    default: true
+  },
+  is_internal: {
+    type: Boolean,
+    default: false
+  },
+  rank: {
+    type: Number,
+    default: 0
+  },
+  // Pai - se for null, é categoria principal. Se tiver id, é subcategoria.
+  parent_category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
+    default: null
+  },
+  // Filhos - a Medusa chama de category_children
+  category_children: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "category"
+    }
+  ]
+}, {
+  timestamps: true
+});
+
+categorySchema.index({ mpath: 1 });
+categorySchema.index({ name: "text", description: "text" });
+
+const CategoryModel = mongoose.model("category", categorySchema);
+export default CategoryModel;
